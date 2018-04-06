@@ -12,14 +12,17 @@ class Sqs(BotPlugin):
     queue = None
 
     def _get_queue(self):
-        self.log.debug('Getting SQS queue.')
-        if self.config['SQS_QUEUE'] is not None:
-            self.queue = sqs.get_queue_by_name(QueueName=self.config['SQS_QUEUE'])
+        if self.config is not None:
+            self.log.debug('Getting SQS queue.')
+            if self.config['SQS_QUEUE'] is not None:
+                self.queue = sqs.get_queue_by_name(QueueName=self.config['SQS_QUEUE'])
 
     def _sqs_callback(self):
         self.log.debug('Checking SQS queue.')
         if self.queue is None:
             self._get_queue()
+        if self.queue is None:
+            return
         for message in self.queue.receive_messages(
                 WaitTimeSeconds=0,
                 MessageAttributeNames=['channel'],
