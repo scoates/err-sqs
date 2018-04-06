@@ -1,0 +1,10 @@
+[Core]
+name = sqs
+module = sqs
+
+[Documentation]
+description = Listens to SQS, relays to chat.
+
+[Python]
+version = 3
+
